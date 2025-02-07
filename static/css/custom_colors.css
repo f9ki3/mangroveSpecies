@@ -1,0 +1,70 @@
+/* Custom theme for Flowbite with hover effects */
+.bg-primary {
+  background-color: #10b981; /* Green */
+}
+.bg-primary:hover {
+  background-color: #34d399; /* Lighter Green on hover */
+}
+
+.bg-secondary {
+  background-color: #16a34a; /* Darker Green */
+}
+.bg-secondary:hover {
+  background-color: #10b981; /* Green on hover */
+}
+
+.bg-accent {
+  background-color: #34d399; /* Light Green */
+}
+.bg-accent:hover {
+  background-color: #16a34a; /* Darker Green on hover */
+}
+
+.bg-darkbg {
+  background-color: #064e3b; /* Dark Green */
+}
+.bg-darkbg:hover {
+  background-color: #10b981; /* Green on hover */
+}
+
+.bg-lightbg {
+  background-color: #d1fae5; /* Light Green */
+}
+.bg-lightbg:hover {
+  background-color: #34d399; /* Light Green on hover */
+}
+
+.text-primary {
+  color: #10b981; /* Green */
+}
+.text-primary:hover {
+  color: #34d399; /* Lighter Green on hover */
+}
+
+.text-secondary {
+  color: #16a34a; /* Darker Green */
+}
+.text-secondary:hover {
+  color: #10b981; /* Green on hover */
+}
+
+.text-accent {
+  color: #34d399; /* Light Green */
+}
+.text-accent:hover {
+  color: #16a34a; /* Darker Green on hover */
+}
+
+.text-darkbg {
+  color: #064e3b; /* Dark Green */
+}
+.text-darkbg:hover {
+  color: #10b981; /* Green on hover */
+}
+
+.text-lightbg {
+  color: #d1fae5; /* Light Green */
+}
+.text-lightbg:hover {
+  color: #34d399; /* Light Green on hover */
+}
