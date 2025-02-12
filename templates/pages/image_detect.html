@@ -77,7 +77,13 @@
           </div>
 
           <!-- Detect Button -->
-          <button class="btn btn-primary">Detect</button>
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Detect
+          </button>
         </div>
       </div>
     </div>
@@ -355,7 +361,7 @@
         </div>
       </div>
     </div>
-    <div class="container px-4 pt-3">
+    <div class="container d-flex justify-content-between px-4 pt-3">
       <nav aria-label="Page navigation example">
         <ul class="pagination">
           <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -365,7 +371,80 @@
           <li class="page-item"><a class="page-link" href="#">Next</a></li>
         </ul>
       </nav>
+      <p class="text-muted">Page 1 of 5</p>
     </div>
     {% include 'components/footer.html' %}
   </body>
 </html>
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Detect Species</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="border p-5 d-flex justify-content-center rounded-4">
+          <!-- File input -->
+          <input type="file" id="file-input" class="form-control" />
+        </div>
+        <!-- Image preview section -->
+        <div
+          id="image-preview"
+          class="d-flex justify-content-center mt-3"
+          style="display: none"
+        >
+          <img
+            id="preview-img"
+            src=""
+            alt="Image Preview"
+            class="img-fluid"
+            style="max-width: 100%; max-height: 300px"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+  // Event listener for file input change
+  document
+    .getElementById("file-input")
+    .addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      const previewImg = document.getElementById("preview-img");
+      const imagePreview = document.getElementById("image-preview");
+
+      if (file) {
+        const reader = new FileReader();
+
+        // When the file is read, display the image
+        reader.onload = function (e) {
+          previewImg.src = e.target.result;
+          imagePreview.style.display = "block"; // Show the image preview section
+        };
+
+        reader.readAsDataURL(file); // Read the file as a data URL
+      }
+    });
+</script>
