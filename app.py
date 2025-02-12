@@ -1,6 +1,14 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify, request
+import os
+import hashlib
+import time
+from mangrove_species import *
 
 app =Flask(__name__) 
+
+# Set the upload folder
+UPLOAD_FOLDER = "static/uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 #pages route
 @app.route('/')
@@ -18,6 +26,76 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('pages/contact.html')
+
+#api endpoints
+@app.route("/save_detected", methods=["POST"])
+def save_detected():
+    try:
+        # Get text data
+        predicted = request.form.get("predicted", "")
+        status = request.form.get("status", "")
+
+        if ":" in predicted:
+            a, b = predicted.split(":", 1)  # Ensure only one split occurs
+            predicted = a.strip()
+            percent = b.strip()
+        else:
+            return jsonify({"success": False, "message": "Invalid format for predicted"}), 400
+
+        # Get the uploaded file
+        file = request.files.get("image")
+        if not file:
+            return jsonify({"success": False, "message": "No file uploaded"}), 400
+
+        # Generate a unique 10-digit hash for the filename
+        hash_value = hashlib.sha256(str(time.time()).encode()).hexdigest()[:10]
+        file_extension = os.path.splitext(file.filename)[1]  # Get original file extension
+        new_filename = f"{hash_value}{file_extension}"
+        file_path = os.path.join(app.config["UPLOAD_FOLDER"], new_filename)
+
+        # Save the file
+        file.save(file_path)
+
+        # Insert into database
+        SpeciesMangrove.insertSpecies(new_filename, predicted, percent, status)
+
+        # Return success response
+        return jsonify({
+            "success": True,
+            "message": "Detection saved successfully!",
+            "data": {
+                "predicted": predicted,
+                "status": status,
+                "percent": percent,
+                "image_url": file_path  # File path for reference
+            }
+        })
+
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+@app.route('/readSpeciesDetected', methods=['GET'])
+def readSpeciesDetected():
+    # Get query parameters for pagination, search, and sorting
+    page = request.args.get('page', 1, type=int)  # Default to page 1 if not provided
+    per_page = request.args.get('per_page', 9, type=int)  # Default to 10 results per page
+    search_term = request.args.get('search', '', type=str)  # Default to empty search
+    sort_column = request.args.get('sort_column', 'date_time', type=str)  # Default to sorting by date_time
+    sort_direction = request.args.get('sort_direction', 'ASC', type=str)  # Default to ascending order
+
+    # Validate sort direction (either 'ASC' or 'DESC')
+    if sort_direction not in ['ASC', 'DESC']:
+        sort_direction = 'ASC'  # Default to ASC if the direction is invalid
+    
+    # Validate the sort column (you can specify more allowed columns)
+    valid_columns = ['date_time', 'species_filename', 'species_predicted', 'species_percent', 'species_status']
+    if sort_column not in valid_columns:
+        sort_column = 'date_time'  # Default to sorting by date_time if the column is invalid
+
+    # Call the function with the dynamic parameters
+    data = SpeciesMangrove.readAllSpecies(page, per_page, search_term, sort_column, sort_direction)
+
+    return jsonify(data)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)

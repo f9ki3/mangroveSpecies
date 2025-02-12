@@ -14,27 +14,29 @@
             <input
               type="text"
               class="form-control text-muted fs-6"
+              id="searchInput"
               placeholder="Search..."
             />
-            <button class="btn border text-muted">Search</button>
+            <button class="btn border text-muted" id="searchButton">
+              Search
+            </button>
           </div>
         </div>
         <div class="col-12 col-md-6 d-flex gap-2">
-          <!-- Sort by Date Dropdown -->
           <div class="dropdown w-100">
             <button
               class="btn btn-light border dropdown-toggle d-flex flex-row justify-content-between align-items-center text-muted fs-6 w-100"
               type="button"
-              id="sortDateDropdown"
+              id="arrangeBy"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Sort by Date
+              Arrange by
             </button>
-            <ul class="dropdown-menu w-100" aria-labelledby="sortDateDropdown">
+            <ul class="dropdown-menu w-100" aria-labelledby="arrangeBy">
               <li>
                 <a class="dropdown-item active" href="#" data-value="default"
-                  >Sort by Date</a
+                  >Arrange by</a
                 >
               </li>
               <li>
@@ -48,7 +50,6 @@
             </ul>
           </div>
 
-          <!-- Sort by Classes Dropdown -->
           <div class="dropdown w-100">
             <button
               class="btn btn-light border d-flex flex-row justify-content-between align-items-center dropdown-toggle text-muted fs-6 w-100"
@@ -57,20 +58,20 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Sort by Classes
+              Sort by
             </button>
             <ul class="dropdown-menu w-100" aria-labelledby="sortClassDropdown">
               <li>
                 <a class="dropdown-item active" href="#" data-value="default"
-                  >Sort by Classes</a
+                  >Sort by</a
                 >
               </li>
               <li>
-                <a class="dropdown-item" href="#" data-value="asc">Ascending</a>
+                <a class="dropdown-item" href="#" data-value="date">Date</a>
               </li>
               <li>
-                <a class="dropdown-item" href="#" data-value="desc"
-                  >Descending</a
+                <a class="dropdown-item" href="#" data-value="species_predicted"
+                  >Prediction</a
                 >
               </li>
             </ul>
@@ -87,296 +88,187 @@
         </div>
       </div>
     </div>
-    <div class="container px-4 pt-3">
-      <div class="row g-5">
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(239, 189, 189);
-                  color: red;
-                  padding: 5px;
-                  border: 2px solid red;
-                "
-                >Invalid</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img
-              style="object-fit: cover; width: 100%; height: 100%"
-              src="{{ url_for('static', filename='img/MangroveVision.png') }}"
-              alt=""
-            />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              FILENAME: Image_01.jpg
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              CLASS: Species
-            </p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS:
-              <span
-                class="rounded-4 fw-bolder"
-                style="
-                  background-color: rgb(148, 230, 148);
-                  color: green;
-                  padding: 5px;
-                  border: 2px solid green;
-                "
-                >Passed</span
-              >
-            </p>
-          </div>
-        </div>
+
+    <div class="container px-4 pt-3" id="data-container">
+      <div class="row g-5" id="data-items">
+        <!-- Dynamic Content will be inserted here -->
       </div>
     </div>
+
     <div class="container d-flex justify-content-between px-4 pt-3">
-      <nav aria-label="Page navigation example">
+      <nav aria-label="Page navigation example" id="pagination-container">
         <ul class="pagination">
-          <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          <!-- Pagination will be inserted here -->
         </ul>
       </nav>
-      <p class="text-muted">Page 1 of 5</p>
+      <p class="text-muted" id="page-info">Page 1 of 5</p>
     </div>
+
+    <script>
+      $(document).ready(function () {
+        let sortColumn = "date"; // Default sort column from the response
+        let sortDirection = "ASC"; // Default sort direction from the response
+        let searchTerm = ""; // Initialize search term
+
+        // Function to update the dropdown and trigger data reload
+        function updateDropdowns() {
+          // Update "Sort by" dropdown based on the selected sort column
+          $("#sortClassDropdown .dropdown-item").each(function () {
+            const itemValue = $(this).data("value");
+            if (itemValue === sortColumn) {
+              $(this).addClass("active");
+            } else {
+              $(this).removeClass("active");
+            }
+          });
+
+          // Update "Arrange by" dropdown based on the selected sort direction
+          $("#arrangeBy .dropdown-item").each(function () {
+            const itemValue = $(this).data("value");
+            if (itemValue === sortDirection) {
+              $(this).addClass("active");
+            } else {
+              $(this).removeClass("active");
+            }
+          });
+
+          // Update the button text
+          $("#sortClassDropdown").text(
+            `Sort by ${capitalizeFirstLetter(sortColumn)}`
+          );
+          $("#arrangeBy").text(
+            sortDirection === "asc" ? "Ascending" : "Descending"
+          );
+
+          loadData(); // Trigger data load with updated sorting
+        }
+
+        // Function to load data based on selected sorting and search term
+        function loadData(page = 1) {
+          $.ajax({
+            url: "/readSpeciesDetected", // Replace with your API endpoint
+            type: "GET",
+            dataType: "json",
+            data: {
+              page: page,
+              limit: 10, // Adjust limit if necessary
+              sort_column: sortColumn,
+              sort_direction: sortDirection,
+              search_term: searchTerm, // Pass search term
+            },
+            success: function (response) {
+              const data = response.data;
+              const totalPages = response.total_pages;
+              const currentPage = response.current_page;
+
+              // Clear existing data and insert new data
+              $("#data-items").empty();
+              data.forEach((item) => {
+                $("#data-items").append(`
+                  <div class="col-12 col-md-4 d-flex flex-row">
+                    <div class="border rounded-4" style="width: 100px; height: 100px">
+                      <img class="rounded-4" style="object-fit: cover; width: 100%; height: 100%" src="../../static/uploads/${item.species_filename}" alt="${item.species_predicted}" />
+                    </div>
+                    <div class="ms-3">
+                      <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
+                      <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
+                      <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
+                        STATUS: <span class="rounded-4 fw-bolder" style="background-color: rgb(148, 230, 148); color: green; padding: 5px; border: 2px solid green">${item.species_status}</span>
+                      </p>
+                    </div>
+                  </div>
+                `);
+              });
+
+              // Update pagination
+              const startPage = Math.max(1, currentPage - 1);
+              const endPage = Math.min(totalPages, currentPage + 1);
+
+              $("#pagination-container .pagination").empty();
+              $("#pagination-container .pagination").append(`
+                <li class="page-item ${currentPage === 1 ? "disabled" : ""}">
+                  <a class="page-link" href="#" data-page="${
+                    currentPage - 1
+                  }">Previous</a>
+                </li>
+              `);
+
+              for (let i = startPage; i <= endPage; i++) {
+                $("#pagination-container .pagination").append(`
+                  <li class="page-item ${i === currentPage ? "active" : ""}">
+                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                  </li>
+                `);
+              }
+
+              $("#pagination-container .pagination").append(`
+                <li class="page-item ${
+                  currentPage === totalPages ? "disabled" : ""
+                }">
+                  <a class="page-link" href="#" data-page="${
+                    currentPage + 1
+                  }">Next</a>
+                </li>
+              `);
+
+              // Update page info
+              $("#page-info").text(`Page ${currentPage} of ${totalPages}`);
+            },
+            error: function (xhr, status, error) {
+              console.error("An error occurred:", error);
+            },
+          });
+        }
+
+        // Helper function to capitalize the first letter of a string
+        function capitalizeFirstLetter(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Initialize data load
+        loadData();
+
+        // Handle selection of arrange by
+        $("#arrangeBy .dropdown-item").click(function () {
+          sortDirection = $(this).data("value");
+          updateDropdowns(); // Update the dropdown and data
+        });
+
+        // Handle selection of sort by
+        $("#sortClassDropdown .dropdown-item").click(function () {
+          sortColumn = $(this).data("value");
+          updateDropdowns(); // Update the dropdown and data
+        });
+
+        // Handle pagination click
+        $(document).on("click", ".page-link", function (e) {
+          e.preventDefault();
+          const page = $(this).data("page");
+          if (page) {
+            loadData(page); // Load data for selected page
+          }
+        });
+
+        // Handle search button click
+        $("#searchButton").click(function () {
+          searchTerm = $("#searchInput").val();
+          loadData(); // Reload data based on search term
+        });
+
+        // Handle pressing Enter key for search
+        $("#searchInput").keypress(function (e) {
+          if (e.which === 13) {
+            // Enter key
+            searchTerm = $(this).val();
+            loadData(); // Reload data based on search term
+          }
+        });
+      });
+    </script>
     {% include 'components/footer.html' %}
   </body>
 </html>
-<!-- Modal -->
+
 <div
   class="modal fade"
   id="exampleModal"
@@ -396,55 +288,95 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div class="border p-5 d-flex justify-content-center rounded-4">
+        <p class="text-muted">Note: Please upload an image to detect</p>
+        <div class="border p-3 d-flex justify-content-center rounded-4">
           <!-- File input -->
-          <input type="file" id="file-input" class="form-control" />
+          <input
+            type="file"
+            id="file-input"
+            class="form-control border-none"
+            accept="image/*"
+            style="background-color: transparent"
+          />
         </div>
         <!-- Image preview section -->
         <div
           id="image-preview"
-          class="d-flex justify-content-center mt-3"
-          style="display: none"
+          class="d-flex border rounded-4 p-3 justify-content-center mt-3"
+          style="display: flex; width: 100%; height: 200px; align-items: center"
         >
+          <!-- Default icon (Bootstrap image icon) -->
+          <i
+            id="preview-icon"
+            class="bi bi-image"
+            style="font-size: 5rem; color: gray; display: block"
+          ></i>
+          <!-- Image preview that will show after file upload -->
           <img
             id="preview-img"
-            src=""
-            alt="Image Preview"
-            class="img-fluid"
-            style="max-width: 100%; max-height: 300px"
+            style="
+              max-width: 100%;
+              max-height: 100%;
+              object-fit: contain;
+              border-radius: 8px;
+              display: none;
+            "
           />
+        </div>
+
+        <!-- Loading spinner (Initially hidden) -->
+        <div id="loading-spinner" class="d-none text-center mt-3">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+
+        <!-- Label Container for Predictions -->
+        <div
+          id="label-container"
+          class="mt-3 fw-bold fs-5 text-center"
+          style="display: none"
+        ></div>
+
+        <!-- Status Section (Centered) -->
+        <div id="status-container" class="text-center mt-2">
+          <p
+            class="text-muted mt-1"
+            style="font-size: 13px; margin: 0px; display: inline-block"
+          >
+            STATUS:
+            <span
+              id="status-label"
+              class="rounded-4 fw-bolder"
+              style="
+                background-color: rgb(239, 189, 189);
+                color: red;
+                padding: 5px;
+                border: 2px solid red;
+              "
+              >Not Detected</span
+            >
+          </p>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button
+          id="save-button"
+          onclick="save_detected()"
+          disabled
+          type="button"
+          class="btn btn-primary"
+        >
+          Save changes
+        </button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- JavaScript -->
-<script>
-  // Event listener for file input change
-  document
-    .getElementById("file-input")
-    .addEventListener("change", function (event) {
-      const file = event.target.files[0];
-      const previewImg = document.getElementById("preview-img");
-      const imagePreview = document.getElementById("image-preview");
-
-      if (file) {
-        const reader = new FileReader();
-
-        // When the file is read, display the image
-        reader.onload = function (e) {
-          previewImg.src = e.target.result;
-          imagePreview.style.display = "block"; // Show the image preview section
-        };
-
-        reader.readAsDataURL(file); // Read the file as a data URL
-      }
-    });
-</script>
+<script src="{{ url_for('static', filename='js/detect_images.js') }}"></script>
+<script src="{{ url_for('static', filename='js/save_detected.js') }}"></script>
