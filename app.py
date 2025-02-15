@@ -31,7 +31,7 @@ def contact():
 @app.route("/save_detected", methods=["POST"])
 def save_detected():
     try:
-        # Get text data
+        # Get text dataf
         predicted = request.form.get("predicted", "")
         status = request.form.get("status", "")
 
