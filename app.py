@@ -10,7 +10,7 @@ app =Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-#pages route
+#pages route para sa pag lipat pages
 @app.route('/')
 def home():
     return render_template('pages/index.html')
@@ -18,10 +18,6 @@ def home():
 @app.route('/image_detect')
 def image_detect():
     return render_template('pages/image_detect.html')
-
-@app.route('/about')
-def about():
-    return render_template('pages/about.html')
 
 #api endpoints
 @app.route("/save_detected", methods=["POST"])

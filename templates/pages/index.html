@@ -5,12 +5,214 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% include 'components/header.html' %}
   </head>
-  <body class="bg-gray-900 text-white">
+  <body>
     {% include 'components/navbar.html' %}
-    <div class="container mx-auto px-4 pt-5">
-      <h1 class="text-3xl font-bold">Realtime Detection</h1>
-      <p class="mt-4">This is a container with padding and centered content.</p>
+    <div class="container">
+      <div class="container pt-5">
+        <div
+          id="carouselExampleAutoplaying"
+          class="carousel slide"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="{{ url_for('static', filename='img/slide_1.jpg') }}"
+                class="d-block w-100"
+                alt="Mangrove Forest"
+              />
+              <div class="carousel-caption">
+                "Mangroves: Nature’s shield against storms and waves."
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='img/slide_3.jpg') }}"
+                class="d-block w-100"
+                alt="Mangrove Roots"
+              />
+              <div class="carousel-caption">
+                "Protect the mangroves, protect the future."
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='img/slide_4.jpg') }}"
+                class="d-block w-100"
+                alt="Mangrove Habitat"
+              />
+              <div class="carousel-caption">
+                "Mangroves: The nursery of marine life."
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='img/slide_5.jpg') }}"
+                class="d-block w-100"
+                alt="Mangrove Conservation"
+              />
+              <div class="carousel-caption">
+                "One mangrove planted, a thousand lives saved."
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='img/slide_6.jpg') }}"
+                class="d-block w-100"
+                alt="Philippines Mangrove"
+              />
+              <div class="carousel-caption">
+                "Save mangroves, sustain life."
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleAutoplaying"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
     </div>
+
+    <div class="container mt-5">
+      <div class="row align-items-center">
+        <div class="col-12 col-md-6 order-md-1 pt-3 order-2 text-center">
+          <img
+            src="{{ url_for('static', filename='img/ill_1.svg') }}"
+            alt="Mangrove Illustration"
+            class="img-fluid rounded mt-5"
+            style="max-width: 80%"
+          />
+        </div>
+        <div class="col-12 col-md-6 order-md-2 order-1">
+          <h1 class="ms-3 fw-bolder text-dark">MangroveVision</h1>
+          <p class="ms-3 mt-3 text-secondary">
+            MangroveVision is an advanced image recognition system designed to
+            classify mangrove species found in the Philippines. Using machine
+            learning and computer vision, it analyzes images of mangroves to
+            identify their species.
+          </p>
+          <a href="/image_detect" class="ms-3 mt-3 btn btn-primary">
+            <i class="bi bi-search"></i> Start Detection
+          </a>
+        </div>
+      </div>
+
+      <div class="row align-items-center mt-5">
+        <div class="col-12 col-md-6">
+          <h1 class="ms-3 fw-bolder text-dark">Why Choose MangroveVision?</h1>
+          <p class="ms-3 mt-3 text-secondary">
+            Mangroves are essential for coastal protection, biodiversity, and
+            carbon storage. However, identifying different mangrove species can
+            be difficult due to their similar features. MangroveVision
+            simplifies this process by offering:
+          </p>
+          <div class="ms-3 text-secondary pb-5">
+            ✅ <strong>Automated species identification</strong> – No expert
+            knowledge required. <br />
+            ✅ <strong>Fast detection results</strong> – Instantly recognizes
+            various mangrove species. <br />
+            ✅ <strong>Accessible to everyone</strong> – Useful for students,
+            scientists, and local communities.
+          </div>
+        </div>
+        <div class="col-12 col-md-6 text-center">
+          <img
+            src="{{ url_for('static', filename='img/ill_2.svg') }}"
+            alt="Mangrove Illustration"
+            class="img-fluid rounded"
+            style="max-width: 80%"
+          />
+        </div>
+      </div>
+
+      <div class="align-items-center mt-5 p-3 mb-5">
+        <div class="rounded border shadow rounded-4 row neon-container">
+          <div class="col-12 col-md-6 text-center mt-4 mt-md-0 py-4">
+            <img
+              src="{{ url_for('static', filename='img/ill_3.svg') }}"
+              alt="How It Works Illustration"
+              class="img-fluid rounded neon-img"
+              style="max-width: 60%"
+            />
+          </div>
+          <div class="col-12 col-md-6 pt-5">
+            <h2 class="ms-3 fw-bolder text-dark neon-text">How It Works</h2>
+            <p class="ms-3 mt-5 text-secondary neon-text" style="width: 100%;">
+              <strong>1️⃣ Upload an Image</strong> – Capture or upload a mangrove photo.<br />
+              <strong>2️⃣ AI Recognition</strong> – The system analyzes it using AI.<br />
+              <strong>3️⃣ Get Results</strong> – Instantly identifies the species with details.
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="container mt-5">
+        <h2 class="text-center fw-bold text-dark mt mb-4">Developers and Researchers</h2>
+        <div class="row justify-content-center">
+          
+          <!-- Member 1 -->
+          <div class="col-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center border shadow p-3 rounded-4">
+              <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='img/student_1.jpg') }}" alt="" 
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              </div>
+              <p class="text-secondary mt-3" style="font-size: 12px;">Vanneza M. Fernandez</p>
+            </div>
+          </div>
+    
+          <div class="col-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center border p-3 shadow rounded-4">
+              <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='img/student_4.jpg') }}" alt="" 
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              </div>
+              <p class="text-secondary mt-3" style="font-size: 13px;">Mark Aaron Madrona</p>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center border p-3 shadow rounded-4">
+              <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='img/student_2.jpg') }}" alt="" 
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              </div>
+              <p class="text-secondary mt-3" style="font-size: 13px;">Ritchell L. Repiano</p>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center border p-3 shadow rounded-4">
+              <div class="bg-primary text-white rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px; overflow: hidden;">
+                <img src="{{ url_for('static', filename='img/student_3.png') }}" alt="" 
+                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              </div>
+              <p class="text-secondary mt-3" style="font-size: 13px;">Alfredo M. Reyes Jr.</p>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+
+      <div class="container mt-5">
+        
+      </div>
+      
   </body>
   {% include 'components/footer.html' %}
 </html>
