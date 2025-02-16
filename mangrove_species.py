@@ -28,10 +28,10 @@ class SpeciesMangrove():
             ''', data)
             print('Inserted scanned species!')
 
-    def readAllSpecies(page=1, per_page=9, search_term='', sort_column='date', sort_direction='ASC'):
+    def readAllSpecies(page=1, per_page=9, search_term='', sort_column='date', sort_direction='DESC'):
         # Validate sort direction (either 'ASC' or 'DESC')
         if sort_direction not in ['ASC', 'DESC']:
-            sort_direction = 'ASC'  # Default to ASC if the direction is invalid
+            sort_direction = 'DESC'  # Default to ASC if the direction is invalid
         
         # Validate the sort column (you can specify more allowed columns)
         valid_columns = ['date', 'species_filename', 'species_predicted', 'species_percent', 'species_status']

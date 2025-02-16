@@ -23,61 +23,24 @@
           </div>
         </div>
         <div class="col-12 col-md-6 d-flex gap-2">
-          <div class="dropdown w-100">
-            <button
-              class="btn btn-light border dropdown-toggle d-flex flex-row justify-content-between align-items-center text-muted fs-6 w-100"
-              type="button"
-              id="arrangeBy"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+          <div class="w-100">
+            <select
+              class="form-select border text-muted fs-6"
+              id="sortBySelect"
             >
-              Arrange by
-            </button>
-            <ul class="dropdown-menu w-100" aria-labelledby="arrangeBy">
-              <li>
-                <a class="dropdown-item active" href="#" data-value="default"
-                  >Arrange by</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-value="asc">Ascending</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-value="desc"
-                  >Descending</a
-                >
-              </li>
-            </ul>
+              <option value="date">Date</option>
+              <option value="species_predicted">Prediction</option>
+            </select>
           </div>
-
-          <div class="dropdown w-100">
-            <button
-              class="btn btn-light border d-flex flex-row justify-content-between align-items-center dropdown-toggle text-muted fs-6 w-100"
-              type="button"
-              id="sortClassDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+          <div class="w-100">
+            <select
+              class="form-select border text-muted fs-6"
+              id="arrangeBySelect"
             >
-              Sort by
-            </button>
-            <ul class="dropdown-menu w-100" aria-labelledby="sortClassDropdown">
-              <li>
-                <a class="dropdown-item active" href="#" data-value="default"
-                  >Sort by</a
-                >
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-value="date">Date</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-value="species_predicted"
-                  >Prediction</a
-                >
-              </li>
-            </ul>
+              <option value="ASC">Ascending</option>
+              <option value="DESC">Descending</option>
+            </select>
           </div>
-
-          <!-- Detect Button -->
           <button
             class="btn btn-primary"
             data-bs-toggle="modal"
@@ -88,55 +51,23 @@
         </div>
       </div>
     </div>
-
     <div class="container px-4 pt-3" id="data-container">
-      <div class="row g-4" id="data-items">
-        <!-- Dynamic Content will be inserted here -->
-      </div>
+      <div class="row g-4" id="data-items"></div>
     </div>
-
     <div class="container d-flex justify-content-between px-4 pt-3">
       <nav aria-label="Page navigation example" id="pagination-container">
-        <ul class="pagination">
-          <!-- Pagination will be inserted here -->
-        </ul>
+        <ul class="pagination"></ul>
       </nav>
       <p class="text-muted" id="page-info">Page 1 of 5</p>
     </div>
-
     <script>
       $(document).ready(function () {
-        let sort_column = "date_time";
-        let sort_direction = "ASC";
+        let sort_column = $("#sortBySelect").val();
+        let sort_direction = $("#arrangeBySelect").val();
         let searchTerm = "";
 
-        function updateDropdowns() {
-          $("#sortClassDropdown .dropdown-item").each(function () {
-            $(this).toggleClass(
-              "active",
-              $(this).data("value") === sort_column
-            );
-          });
-
-          $("#arrangeBy .dropdown-item").each(function () {
-            $(this).toggleClass(
-              "active",
-              $(this).data("value") === sort_direction
-            );
-          });
-
-          $("#sortClassButton").text(
-            `Sort by ${capitalizeFirstLetter(sort_column)}`
-          );
-          $("#arrangeByButton").text(
-            sort_direction === "ASC" ? "Ascending" : "Descending"
-          );
-
-          loadData();
-        }
-
         function loadData(page = 1) {
-          const url = `/readSpeciesDetected?page=${page}&per_page=9&sort_column=${sort_column}&sort_direction=${sort_direction}&search=${encodeURIComponent(
+          const url = `/readSpeciesDetected?page=${page}&per_page=12&sort_column=${sort_column}&sort_direction=${sort_direction}&search=${encodeURIComponent(
             searchTerm
           )}`;
           console.log("Fetching data from:", url);
@@ -159,24 +90,24 @@
           $("#data-items").empty();
           data.forEach((item) => {
             $("#data-items").append(`
-                  <div class="col-12 col-md-4 d-flex flex-row">
-                      <div class="border rounded-4" style="width: 100px; height: 100px">
-                          <img class="rounded-4" style="object-fit: cover; width: 100%; height: 100%" 
-                               src="../../static/uploads/${item.species_filename}" 
-                               alt="${item.species_predicted}" />
-                      </div>
-                      <div class="ms-3">
-                          <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
-                          <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
-                          <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-                              STATUS: <span class="rounded-4 fw-bolder" 
-                                  style="background-color: rgb(148, 230, 148); color: green; padding: 5px; border: 2px solid green">
-                                  ${item.species_status}
-                              </span>
-                          </p>
-                      </div>
-                  </div>
-              `);
+              <div class="col-12 col-md-4 d-flex flex-row">
+                <div class="border rounded-4" style="width: 100px; height: 100px">
+                  <img class="rounded-4" style="object-fit: cover; width: 100%; height: 100%" 
+                       src="../../static/uploads/${item.species_filename}" 
+                       alt="${item.species_predicted}" />
+                </div>
+                <div class="ms-3">
+                  <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
+                  <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
+                  <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
+                    STATUS: <span class="rounded-4 fw-bolder" 
+                      style="background-color: rgb(148, 230, 148); color: green; padding: 5px; border: 2px solid green">
+                      ${item.species_status}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            `);
           });
         }
 
@@ -189,7 +120,6 @@
               currentPage - 1
             }">Previous</a></li>`
           );
-
           for (
             let i = Math.max(1, currentPage - 2);
             i <= Math.min(totalPages, currentPage + 2);
@@ -201,7 +131,6 @@
               }"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`
             );
           }
-
           pagination.append(
             `<li class="page-item ${
               currentPage === totalPages ? "disabled" : ""
@@ -212,19 +141,10 @@
           $("#page-info").text(`Page ${currentPage} of ${totalPages}`);
         }
 
-        function capitalizeFirstLetter(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        // Event Listeners
-        $("#arrangeBy .dropdown-item").click(function () {
-          sort_direction = $(this).data("value");
-          updateDropdowns();
-        });
-
-        $("#sortClassDropdown .dropdown-item").click(function () {
-          sort_column = $(this).data("value");
-          updateDropdowns();
+        $("#arrangeBySelect, #sortBySelect").change(function () {
+          sort_column = $("#sortBySelect").val();
+          sort_direction = $("#arrangeBySelect").val();
+          loadData();
         });
 
         $(document).on("click", ".page-link", function (e) {

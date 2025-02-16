@@ -23,10 +23,6 @@ def image_detect():
 def about():
     return render_template('pages/about.html')
 
-@app.route('/contact')
-def contact():
-    return render_template('pages/contact.html')
-
 #api endpoints
 @app.route("/save_detected", methods=["POST"])
 def save_detected():
@@ -78,14 +74,14 @@ def save_detected():
 def readSpeciesDetected():
     # Get query parameters for pagination, search, and sorting
     page = request.args.get('page', 1, type=int)  # Default to page 1 if not provided
-    per_page = request.args.get('per_page', 9, type=int)  # Default to 10 results per page
+    per_page = request.args.get('per_page', 12, type=int)  # Default to 10 results per page
     search_term = request.args.get('search', '', type=str)  # Default to empty search
     sort_column = request.args.get('sort_column', 'date_time', type=str)  # Default to sorting by date_time
-    sort_direction = request.args.get('sort_direction', 'ASC', type=str)  # Default to ascending order
+    sort_direction = request.args.get('sort_direction', 'DESC', type=str)  # Default to ascending order
 
     # Validate sort direction (either 'ASC' or 'DESC')
     if sort_direction not in ['ASC', 'DESC']:
-        sort_direction = 'ASC'  # Default to ASC if the direction is invalid
+        sort_direction = 'DESC'  # Default to ASC if the direction is invalid
     
     # Validate the sort column (you can specify more allowed columns)
     valid_columns = ['date_time', 'species_filename', 'species_predicted', 'species_percent', 'species_status']
