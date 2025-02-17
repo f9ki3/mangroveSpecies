@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'components/header.html' %}
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+    <div class="container mt-4">
+      <div
+        id="camera"
+        class="border rounded-4"
+        style="height: 80vh; width: 100%"
+      >
+        <div id="overlay">Loading time...</div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/camera.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/realtime_detect.js') }}"></script>
+    {% include 'components/footer.html' %}
+  </body>
+</html>

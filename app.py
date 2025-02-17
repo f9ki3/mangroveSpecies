@@ -15,6 +15,11 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def home():
     return render_template('pages/index.html')
 
+
+@app.route('/realtime_detect')
+def realtime_detect():
+    return render_template('pages/realtime_detect.html')
+
 @app.route('/image_detect')
 def image_detect():
     return render_template('pages/image_detect.html')
