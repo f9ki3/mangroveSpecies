@@ -53,7 +53,10 @@ async function predict() {
     let highestPrediction = { className: "", probability: 0 };
     for (let i = 0; i < maxPredictions; i++) {
       const classPrediction =
-        prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        prediction[i].className +
+        ": " +
+        (prediction[i].probability * 100).toFixed(0) +
+        "%"; // Display as whole number percentage
       labelContainer.childNodes[i].innerHTML = classPrediction;
 
       // Check if this is the highest probability prediction
@@ -65,11 +68,11 @@ async function predict() {
       }
     }
 
-    // Display the highest predicted class and its probability in the 'predicted' paragraph
+    // Display the highest predicted class and its probability as a whole number percentage in the 'predicted' paragraph
     const predictedElement = document.getElementById("predicted");
-    predictedElement.innerHTML = `${
-      highestPrediction.className
-    }: ${highestPrediction.probability.toFixed(2)}`;
+    predictedElement.innerHTML = `${highestPrediction.className}: ${(
+      highestPrediction.probability * 100
+    ).toFixed(0)}%`; // Display as whole number percentage
   } catch (error) {
     console.error("Prediction error:", error);
   }
