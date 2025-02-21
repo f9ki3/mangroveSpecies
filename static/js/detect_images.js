@@ -95,7 +95,7 @@ let species_list = [
     googleSearch: "https://www.google.com/search?q=Lumnitzera+racemosa",
   },
   {
-    name: "nypa fructicans",
+    name: "nypa fruticans",
     description:
       "Juice from young shoots is used to treat herpes and the ash of the burned plant is used to treat toothache and headache. Others: Sap also used to fatten up pigs in parts of Indonesia during dry season when fodder is scarce. Sugar-rich sap can also be distilled into industrial ethanol and biofuel.",
     googleSearch: "https://www.google.com/search?q=Nypa+fructicans+%28Nipa%29",
@@ -140,6 +140,18 @@ let species_list = [
     description:
       "Xylocarpus mekongensis is the most valuable timber species of the Sundarbans mangrove forest of Bangladesh and found to grow well in moderate saline areas. This species occurs in association with Heritiera fomes, Avicennia ofﬁcinalis, or Bruguiera gymnorrhiza (Mahmood, 2015).",
     googleSearch: "https://www.google.com/search?q=Xylocarpus+mekongensis",
+  },
+  {
+    name: "xylocarpus moluccensis",
+    description:
+      "Xylocarpus moluccensis is a tree in the family Meliaceae. It is named for the Moluccas archipelago (now Maluku Islands). Xylocarpus moluccensis. Young tree with fruit and flower buds. Conservation status.",
+    googleSearch: "https://www.google.com/search?q=xylocarpus+moluccensis",
+  },
+  {
+    name: "dolichandrone spathacea",
+    description:
+      "Dolichandrone spathacea, also known as tui or mangrove trumpet tree (Thai: แคทะเล or แคป่า, khae thale or khae pa; Tagalog: tui, tue or tuy), is a species of plant in the family Bignoniaceae. It is found from South India, Sri Lanka to New Caledonia.",
+    googleSearch: "https://www.google.com/search?q=dolichandrone+spathacea",
   },
 ];
 
@@ -196,13 +208,13 @@ async function predict(imageElement) {
   const saveChangesBtn = document.querySelector(".modal-footer .btn-primary");
 
   const speciesInfo = document.getElementById("species-info");
-  // const speciesName = document.getElementById("species-name");
   const speciesDescription = document.getElementById("species-description");
   const speciesLink = document.getElementById("species-link");
 
   loadingSpinner.classList.add("d-none");
 
-  if (bestPrediction.probability < 0.97) {
+  if (bestPrediction.probability < 0.99) {
+    // Changed from 0.97 to 0.90
     statusLabel.innerText = "Not Detected";
     statusLabel.style.backgroundColor = "rgb(239, 189, 189)";
     statusLabel.style.color = "red";
@@ -231,7 +243,6 @@ async function predict(imageElement) {
       labelContainer.style.display = "block";
 
       // Update species info section
-      // speciesName.innerText = detectedSpecies;
       speciesDescription.innerText =
         speciesFound.description || "No description available.";
       speciesLink.href = speciesFound.googleSearch;
