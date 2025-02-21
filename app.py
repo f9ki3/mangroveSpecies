@@ -16,6 +16,10 @@ def home():
     return render_template('pages/index.html')
 
 
+@app.route('/learn_mangrove')
+def learn_mangrove():
+    return render_template('pages/learn_mangrove.html')
+
 @app.route('/realtime_detect')
 def realtime_detect():
     return render_template('pages/realtime_detect.html')

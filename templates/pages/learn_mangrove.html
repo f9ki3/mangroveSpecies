@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'components/header.html' %}
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+    <div class="container mt-4"></div>
+    <div class="row">
+      <div class="input-group w-100">
+        <input
+          type="text"
+          class="form-control text-muted fs-6"
+          id="searchInput"
+          placeholder="Search..."
+        />
+        <button class="btn border text-muted" id="searchButton">Search</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-4">
+        <h1>Product 1</h1>
+      </div>
+    </div>
+
+    <!-- Your custom camera script -->
+    {% include 'components/footer.html' %}
+  </body>
+</html>
