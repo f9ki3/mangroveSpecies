@@ -4,8 +4,11 @@ import hashlib
 import time
 from inference_sdk import InferenceHTTPClient
 from mangrove_species import *
+from mangroves import *
 
 app =Flask(__name__) 
+
+
 
 # Set the upload folder
 UPLOAD_FOLDER = "static/uploads"
@@ -41,16 +44,25 @@ def infer_image():
     
     try:
         # Perform inference
-        result = CLIENT.infer(temp_path, model_id="mangrove-species-dcege/2")
+        result = CLIENT.infer(temp_path, model_id="mangrove-species-dcege/3")
         os.remove(temp_path)  # Remove temporary image
         return jsonify(result)
     except Exception as e:
         os.remove(temp_path)  # Ensure cleanup on error
         return jsonify({'error': str(e)}), 500
 
+@app.route('/')
+def root():
+    return render_template('pages/index.html')
+
 @app.route('/learn_mangrove')
 def learn_mangrove():
     return render_template('pages/learn_mangrove.html')
+
+
+@app.route('/view_species')
+def view_species():
+    return render_template('pages/view_species.html')
 
 @app.route('/realtime_detect')
 def realtime_detect():
@@ -64,6 +76,19 @@ def image_detect():
 @app.route("/detect_image", methods=["POST"])
 def detect_img():
     return "detected"
+
+
+@app.route('/get_mangrove', methods=['GET'])
+def get_mangrove():
+    search_query = request.args.get('search', '').lower()
+    
+    # Filter species based on search query (e.g., name or description)
+    filtered_mangroves = [
+        mangrove for mangrove in mangroves 
+        if search_query in mangrove['name'].lower() or search_query in mangrove['description'].lower()
+    ]
+    
+    return jsonify({"species": filtered_mangroves})
 
 
 @app.route("/save_detected", methods=["POST"])

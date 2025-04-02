@@ -4,28 +4,178 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% include 'components/header.html' %}
+
+    <style>
+      /* General Body Styling */
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Mangrove Card Styling */
+      .mangrove-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background: #fff;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .mangrove-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+      }
+
+      .mangrove-card img {
+        width: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+        height: 200px;
+      }
+
+      .mangrove-card .card-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-top: 15px;
+      }
+
+      .mangrove-card h4 {
+        font-size: 1.2rem;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .mangrove-card p {
+        color: #555;
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+      }
+
+      .mangrove-card p strong {
+        color: #333;
+      }
+
+      /* Button Styling */
+      .mangrove-card a {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+      }
+
+      .mangrove-card a:hover {
+        background-color: #0056b3;
+      }
+
+      .mangrove-card a i {
+        margin-right: 8px;
+        font-size: 1.2rem;
+      }
+
+      /* Icon Styles */
+      .mangrove-card i {
+        margin-right: 8px;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 767px) {
+        .mangrove-card {
+          padding: 15px;
+        }
+
+        .mangrove-card h4 {
+          font-size: 1.1rem;
+        }
+
+        .mangrove-card p {
+          font-size: 0.9rem;
+        }
+
+        .mangrove-card img {
+          height: 180px;
+        }
+      }
+    </style>
   </head>
   <body>
     {% include 'components/navbar.html' %}
-    <div class="container mt-4"></div>
-    <div class="row">
-      <div class="input-group w-100">
-        <input
-          type="text"
-          class="form-control text-muted fs-6"
-          id="searchInput"
-          placeholder="Search..."
-        />
-        <button class="btn border text-muted" id="searchButton">Search</button>
+    <div class="container mt-3 mb-5">
+      <div id="mangrove-list" class="row g-3">
+        <!-- Mangrove data will be appended here -->
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 col-4">
-        <h1>Product 1</h1>
-      </div>
-    </div>
-
-    <!-- Your custom camera script -->
     {% include 'components/footer.html' %}
+
+    <script>
+      fetch("/get_mangrove")
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.species && data.species.length > 0) {
+            let mangroveHtml = "";
+            data.species.forEach((mangrove) => {
+              mangroveHtml += `
+                <div class="col-md-4 col-sm-6 d-flex align-items-stretch">
+                  <div class="mangrove-card">
+                    <img src="../static/img/species/${
+                      mangrove.images[0]
+                    }" alt="${mangrove.name}" />
+                    <div class="card-content">
+                      <h4 class="mt-2 text-capitalize">${mangrove.name.replace(
+                        "_",
+                        " "
+                      )}</h4>
+                      <p>${mangrove.description.split(".")[0]}.</p>
+                      <p class="m-0 p-0"><strong>Genus:</strong> ${
+                        mangrove.taxonomy.genus
+                      }</p>
+                      <p class="m-0 p-0"><strong>Species:</strong> ${
+                        mangrove.taxonomy.species
+                      }</p>
+                    </div>
+                    <a href="view_species?name=${
+                      mangrove.name
+                    }" class="btn-primary rounded-5 btn">
+                      <i class="bi bi-eye"></i> View Details
+                    </a>
+                  </div>
+                </div>`;
+            });
+            document.getElementById("mangrove-list").innerHTML = mangroveHtml;
+          } else {
+            document.getElementById("mangrove-list").innerHTML =
+              "<p>No mangrove species found.</p>";
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching mangrove data:", error);
+          document.getElementById("mangrove-list").innerHTML =
+            "<p>There was an error loading the mangrove species.</p>";
+        });
+    </script>
   </body>
 </html>
