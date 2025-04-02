@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 import os
 import hashlib
 import time
+from inference_sdk import InferenceHTTPClient
 from mangrove_species import *
 
 app =Flask(__name__) 
@@ -10,11 +11,42 @@ app =Flask(__name__)
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-#pages route para sa pag lipat pages
-@app.route('/')
-def home():
-    return render_template('pages/index.html')
 
+# Initialize the client
+CLIENT = InferenceHTTPClient(
+    api_url="https://detect.roboflow.com",
+    api_key="9FWlBEtixk01aVRdtWAZ"
+)
+
+# Set maximum allowed file size (5MB)
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB in bytes
+
+@app.route('/infer', methods=['POST'])
+def infer_image():
+    if 'image' not in request.files:
+        return jsonify({'error': 'No image file provided'}), 400
+    
+    image = request.files['image']
+
+    # Check file size
+    image.seek(0, os.SEEK_END)  # Move to end of file to check size
+    file_size = image.tell()  # Get file size
+    image.seek(0)  # Reset file pointer
+
+    if file_size > MAX_FILE_SIZE:
+        return jsonify({'error': 'File size exceeds 5MB. Please upload a smaller image.'}), 413
+
+    temp_path = "temp_image.jpg"
+    image.save(temp_path)  # Save the image temporarily
+    
+    try:
+        # Perform inference
+        result = CLIENT.infer(temp_path, model_id="mangrove-species-dcege/2")
+        os.remove(temp_path)  # Remove temporary image
+        return jsonify(result)
+    except Exception as e:
+        os.remove(temp_path)  # Ensure cleanup on error
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/learn_mangrove')
 def learn_mangrove():
@@ -29,6 +61,11 @@ def image_detect():
     return render_template('pages/image_detect.html')
 
 #api endpoints
+@app.route("/detect_image", methods=["POST"])
+def detect_img():
+    return "detected"
+
+
 @app.route("/save_detected", methods=["POST"])
 def save_detected():
     try:
