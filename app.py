@@ -9,11 +9,9 @@ from mangroves import *
 app =Flask(__name__) 
 
 
-
 # Set the upload folder
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
 
 # Initialize the client
 CLIENT = InferenceHTTPClient(
