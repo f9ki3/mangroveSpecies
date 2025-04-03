@@ -30,3 +30,24 @@ function save_detected() {
     },
   });
 }
+
+$(document).ready(function () {
+  $("#save-button").prop("disabled", true); // Initially disabled
+
+  function checkStatus() {
+    if ($("#status").text().trim().toLowerCase() === "detected") {
+      $("#save-button").prop("disabled", false);
+    } else {
+      $("#save-button").prop("disabled", true);
+    }
+  }
+
+  // Monitor #status changes
+  const observer = new MutationObserver(checkStatus);
+  observer.observe(document.getElementById("status"), { childList: true });
+
+  // Ensure check runs when an image is uploaded
+  $("#imageInput").on("change", function () {
+    checkStatus();
+  });
+});
