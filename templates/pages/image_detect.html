@@ -73,7 +73,7 @@
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">Detect Species</h1>
@@ -85,34 +85,121 @@
         ></button>
       </div>
       <div class="modal-body">
-        <input type="file" id="imageInput" />
-        <div id="result"></div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="row">
+              <div class="col-6">
+                <button class="btn border w-100">Image Upload</button>
+              </div>
+              <div class="col-6">
+                <button class="btn border w-100">Capture Image</button>
+              </div>
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label for="imageInput" class="form-label">Upload Image</label>
+              <input
+                class="form-control"
+                type="file"
+                id="imageInput"
+                accept="image/*"
+              />
+            </div>
+
+            <!-- Image Preview -->
+            <div class="mb-3">
+              <img
+                id="imagePreview"
+                src=""
+                alt="Selected Image"
+                class="img-fluid d-none rounded"
+                style="
+                  width: 100%;
+                  height: auto;
+                  aspect-ratio: 1 / 1;
+                  object-fit: cover;
+                  border: 1px solid #ddd;
+                "
+              />
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div id="show" class="rounded border p-3 text-center">
+              <!-- Bootstrap icon for upload -->
+              <i
+                class="bi bi-info-circle"
+                style="font-size: 30px; color: gray"
+              ></i>
+              <p>Please upload image to detect mangrove species</p>
+            </div>
+
+            <div id="result-div" style="display: none">
+              <p>Prediction Species</p>
+              <div
+                style="height: 100px; color: gray"
+                class="border rounded d-flex justify-content-center align-items-center"
+              >
+                <h4 id="detected" class="ms-2">Loading...</h4>
+              </div>
+
+              <p class="mt-3">Prediction Status</p>
+              <div
+                style="height: 100px; color: gray"
+                class="border rounded d-flex justify-content-center align-items-center"
+              >
+                <h4 id="status" class="ms-2">Loading...</h4>
+              </div>
+
+              <p class="mt-3">Confidence Level</p>
+              <div
+                style="height: 100px; color: gray"
+                class="border rounded d-flex justify-content-center align-items-center"
+              >
+                <h4 id="confidence" class="ms-2">Loading...</h4>
+              </div>
+            </div>
+
+            <div id="result"></div>
+          </div>
+        </div>
 
         <script>
           $(document).ready(function () {
-            $("#uploadBtn").click(function () {
-              console.log("Uploading...");
-              let file = $("#imageInput")[0].files[0];
+            $("#imageInput").on("change", function () {
+              let file = this.files[0];
 
               if (!file) {
                 alert("Please select an image file");
                 return;
               }
 
-              // If file is already ≤ 5MB, upload directly
+              // Preview the image
+              previewImage(file);
+
+              // Check file size and handle accordingly
               if (file.size <= 5 * 1024 * 1024) {
                 uploadImage(file);
               } else {
-                // Resize the image to fit within 5MB
                 resizeImage(file, function (compressedFile) {
                   uploadImage(compressedFile);
                 });
               }
             });
 
+            function previewImage(file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                $("#imagePreview")
+                  .attr("src", e.target.result)
+                  .removeClass("d-none");
+              };
+              reader.readAsDataURL(file);
+              $("#show").hide();
+              $("#result-div").show();
+            }
+
             function resizeImage(file, callback) {
               const reader = new FileReader();
-
               reader.onload = function (event) {
                 const img = new Image();
                 img.src = event.target.result;
@@ -123,7 +210,7 @@
 
                   let width = img.width;
                   let height = img.height;
-                  const maxSize = 1024; // Adjust resolution (higher = bigger file)
+                  const maxSize = 1024; // Resize dimension
 
                   if (width > height) {
                     if (width > maxSize) {
@@ -141,7 +228,7 @@
                   canvas.height = height;
                   ctx.drawImage(img, 0, 0, width, height);
 
-                  // Convert to JPEG with lower quality (adjust for 5MB limit)
+                  // Convert to JPEG
                   canvas.toBlob(
                     function (blob) {
                       if (blob.size > 5 * 1024 * 1024) {
@@ -157,11 +244,10 @@
                       }
                     },
                     "image/jpeg",
-                    0.8 // Adjust quality (lower = smaller file)
+                    0.8
                   );
                 };
               };
-
               reader.readAsDataURL(file);
             }
 
@@ -176,9 +262,23 @@
                 processData: false,
                 contentType: false,
                 success: function (response) {
-                  $("#result").html(
-                    "<pre>" + JSON.stringify(response, null, 2) + "</pre>"
-                  );
+                  if (response.predictions && response.predictions.length > 0) {
+                    // Get the first prediction's class and confidence
+                    const className = response.predictions[0].class;
+                    const confidence = (
+                      response.predictions[0].confidence * 100
+                    ).toFixed(2); // Convert confidence to percentage
+
+                    // Display the class name, prediction status, and confidence
+                    $("#detected").text(className);
+                    $("#status").text("Detected");
+                    $("#confidence").text(confidence + "%");
+                  } else {
+                    // If no predictions
+                    $("#detected").text("No Detected");
+                    $("#status").text("No Detected");
+                    $("#confidence").text("N/A");
+                  }
                 },
                 error: function (xhr) {
                   $("#result").html(
@@ -190,11 +290,12 @@
           });
         </script>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <!-- <button
+        <button
           id="save-button"
           onclick="save_detected()"
           disabled
@@ -202,8 +303,7 @@
           class="btn btn-primary"
         >
           Save changes
-        </button> -->
-        <button id="uploadBtn" class="btn btn-primary">Upload</button>
+        </button>
       </div>
     </div>
   </div>

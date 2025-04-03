@@ -1,7 +1,7 @@
 function save_detected() {
-  let labelText = $("#label-container").text().trim();
-  let statusText = $("#status-label").text().trim();
-  let fileInput = $("#file-input")[0].files[0];
+  let labelText = $("#detected").text().trim();
+  let statusText = $("#status").text().trim();
+  let fileInput = $("#imageInput")[0].files[0];
 
   if (!fileInput) {
     alert("No image selected!");
