@@ -47,10 +47,16 @@
         text-align: center;
         width: 100%;
         position: absolute;
-        top: 20px;
+        top: 300px; /* Default value for larger screens */
         font-size: 3em;
         font-weight: bold;
         z-index: 100;
+      }
+
+      @media (max-width: 767px) {
+        body.loading:before {
+          top: 500px; /* For mobile screens */
+        }
       }
 
       html,
