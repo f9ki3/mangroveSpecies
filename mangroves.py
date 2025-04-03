@@ -124,5 +124,26 @@ mangroves = [
         "sonneratia_alba_4.jpg",
         "sonneratia_alba_5.jpg"
       ]
+    },
+    {
+      "name": "xylocarpus_moluccensis",
+      "description": "Xylocarpus moluccensis, commonly known as the Moluccan mangrove, is a species found in the coastal regions of Southeast Asia. It is noted for its large, leathery leaves and the unique, woody fruit capsules it produces. This mangrove species thrives in saline environments and is an important part of mangrove ecosystems, helping to stabilize coastlines and provide habitats for various marine species. Xylocarpus moluccensis is often found in areas with moderate tidal influence and plays a role in protecting shorelines from erosion and storm surges.",
+      "taxonomy": {
+        "domain": "Eukaryota",
+        "kingdom": "Plantae",
+        "phylum": "Tracheophyta",
+        "class": "Magnoliopsida",
+        "order": "Malpighiales",
+        "family": "Meliaceae",
+        "genus": "Xylocarpus",
+        "species": "Xylocarpus moluccensis"
+      },
+      "images": [
+        "xylocarpus_moluccensis_1.jpg",
+        "xylocarpus_moluccensis_2.jpg",
+        "xylocarpus_moluccensis_3.jpg",
+        "xylocarpus_moluccensis_4.jpg",
+        "xylocarpus_moluccensis_5.jpg"
+      ]
     }
-  ]
+]
