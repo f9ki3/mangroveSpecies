@@ -92,16 +92,14 @@ def get_mangrove():
 @app.route("/save_detected", methods=["POST"])
 def save_detected():
     try:
-        # Get text dataf
-        predicted = request.form.get("predicted", "")
-        status = request.form.get("status", "")
+        # Get text data
+        predicted = request.form.get("predicted", "").strip()
+        status = request.form.get("status", "").strip()
 
-        if ":" in predicted:
-            a, b = predicted.split(":", 1)  # Ensure only one split occurs
-            predicted = a.strip()
-            percent = b.strip()
-        else:
-            return jsonify({"success": False, "message": "Invalid format for predicted"}), 400
+        if not predicted:
+            return jsonify({"success": False, "message": "Predicted field is required"}), 400
+
+        percent = ""  # No longer extracting percentage
 
         # Get the uploaded file
         file = request.files.get("image")
@@ -117,7 +115,7 @@ def save_detected():
         # Save the file
         file.save(file_path)
 
-        # Insert into database
+        # Insert into database (adjust as needed)
         SpeciesMangrove.insertSpecies(new_filename, predicted, percent, status)
 
         # Return success response

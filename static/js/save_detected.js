@@ -3,6 +3,9 @@ function save_detected() {
   let statusText = $("#status").text().trim();
   let fileInput = $("#imageInput")[0].files[0];
 
+  console.log("Predicted (detected text):", labelText); // Debugging
+  console.log("Status:", statusText);
+
   if (!fileInput) {
     alert("No image selected!");
     return;
@@ -14,18 +17,22 @@ function save_detected() {
   formData.append("image", fileInput);
 
   $.ajax({
-    url: "/save_detected", // Change this to your server endpoint
+    url: "/save_detected",
     type: "POST",
     data: formData,
     contentType: false,
     processData: false,
     success: function (response) {
-      console.log(response);
-      alert("Detection saved successfully!");
+      if (response.success) {
+        alert("Detection saved successfully!");
+        console.log("Saved Data:", response.data);
+      } else {
+        alert("Error: " + response.message);
+      }
       window.location.reload();
     },
     error: function (xhr, status, error) {
-      console.error(error);
+      console.error("Error Details:", xhr.responseText);
       alert("Failed to save detection.");
     },
   });
