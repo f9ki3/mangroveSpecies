@@ -157,6 +157,7 @@
               >
                 <h4 id="confidence" class="ms-2">Loading...</h4>
               </div>
+              <div id="btn-learn" class="mt-3 w-100"></div>
             </div>
 
             <div id="result"></div>
@@ -273,11 +274,20 @@
                     $("#detected").text(className);
                     $("#status").text("Detected");
                     $("#confidence").text(confidence + "%");
+
+                    // Dynamically create the "Learn Species" link and append it to btn-learn
+                    const speciesName = className
+                      .toLowerCase()
+                      .replace(/\s+/g, "-"); // Make species name URL-friendly
+                    const learnLink = `<a href="view_species?name=${speciesName}" class="btn border w-100 text-primary border-primary">Learn Species</a>`;
+
+                    $("#btn-learn").html(learnLink); // Append the link to btn-learn
                   } else {
                     // If no predictions
                     $("#detected").text("No Detected");
                     $("#status").text("No Detected");
                     $("#confidence").text("N/A");
+                    $("#btn-learn").html(""); // Clear any existing link if no detection
                   }
                 },
                 error: function (xhr) {
