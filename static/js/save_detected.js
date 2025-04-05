@@ -71,7 +71,7 @@ function resizeImage(fileInput, labelText, statusText) {
         },
         "image/jpeg",
         0.8
-      ); // 0.8 is the quality factor, adjust as needed
+      );
     };
     img.src = e.target.result;
   };
@@ -79,7 +79,6 @@ function resizeImage(fileInput, labelText, statusText) {
   reader.readAsDataURL(fileInput);
 }
 
-// Function to upload the image
 function uploadImage(file, labelText, statusText) {
   let formData = new FormData();
   formData.append("predicted", labelText);

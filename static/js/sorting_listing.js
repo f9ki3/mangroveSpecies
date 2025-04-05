@@ -37,6 +37,12 @@ $(document).ready(function () {
     }
 
     data.forEach((item) => {
+      // Determine the background and text color based on species status
+      let statusStyle =
+        item.species_status === "Detected"
+          ? "background-color: rgb(148, 230, 148); color: green; border: 2px solid green;"
+          : "background-color: rgb(255, 204, 204); color: red; border: 2px solid red;";
+
       $("#data-items").append(`
         <div class="col-12 col-md-4 d-flex flex-row">
           <div class="border rounded-4" style="width: 100px; height: 100px">
@@ -48,8 +54,7 @@ $(document).ready(function () {
             <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
             <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
             <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS: <span class="rounded-4 fw-bolder" 
-                style="background-color: rgb(148, 230, 148); color: green; padding: 5px; border: 2px solid green">
+              STATUS: <span class="rounded-4 fw-bolder" style="padding: 5px; ${statusStyle}">
                 ${item.species_status}
               </span>
             </p>

@@ -122,10 +122,10 @@ $(document).ready(function () {
           const learnLink = `<a href="view_species?name=${speciesName}" class="btn border w-100 text-primary border-primary">Learn Species</a>`;
           $("#btn-learn").html(learnLink);
         } else {
-          $("#detected").text("No Detected");
-          $("#status").text("No Detected");
+          $("#detected").text("Not Detected");
+          $("#status").text("Not Detected");
           $("#confidence").text("N/A");
-          $("#remarks").text("");
+          $("#remarks").text("Not Detected"); // If confidence is N/A, set remarks to "Not Detected"
           $("#btn-learn").html("");
         }
       },
