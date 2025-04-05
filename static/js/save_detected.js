@@ -112,18 +112,22 @@ $(document).ready(function () {
   $("#save-button").prop("disabled", true); // Initially disabled
 
   function checkStatus() {
-    if ($("#status").text().trim().toLowerCase() === "detected") {
+    const status = $("#status").text().trim().toLowerCase();
+    const hasImage = $("#imageInput")[0].files.length > 0;
+
+    // Enable save button if an image is selected regardless of status
+    if (hasImage) {
       $("#save-button").prop("disabled", false);
     } else {
       $("#save-button").prop("disabled", true);
     }
   }
 
-  // Monitor #status changes
+  // Observe status changes or when result is filled
   const observer = new MutationObserver(checkStatus);
   observer.observe(document.getElementById("status"), { childList: true });
 
-  // Ensure check runs when an image is uploaded
+  // Check when image changes
   $("#imageInput").on("change", function () {
     checkStatus();
   });

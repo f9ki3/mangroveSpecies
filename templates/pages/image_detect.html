@@ -136,169 +136,41 @@
             <div id="result-div" style="display: none">
               <p>Prediction Species</p>
               <div
-                style="height: 100px; color: gray"
+                style="height: 50px; color: gray"
                 class="border rounded d-flex justify-content-center align-items-center"
               >
-                <h4 id="detected" class="ms-2">Loading...</h4>
+                <h5 id="detected" class="ms-2">Loading...</h5>
               </div>
 
               <p class="mt-3">Prediction Status</p>
               <div
-                style="height: 100px; color: gray"
+                style="height: 50px; color: gray"
                 class="border rounded d-flex justify-content-center align-items-center"
               >
-                <h4 id="status" class="ms-2">Loading...</h4>
+                <h5 id="status" class="ms-2">Loading...</h5>
               </div>
 
               <p class="mt-3">Confidence Level</p>
               <div
-                style="height: 100px; color: gray"
+                style="height: 50px; color: gray"
                 class="border rounded d-flex justify-content-center align-items-center"
               >
-                <h4 id="confidence" class="ms-2">Loading...</h4>
+                <h5 id="confidence" class="ms-2">Loading...</h5>
               </div>
+              <p class="mt-3">Remarks</p>
+              <div
+                style="height: 100px; color: gray"
+                class="border rounded d-flex justify-content-center align-items-center text-center"
+              >
+                <h5 id="remarks">Loading...</h5>
+              </div>
+
               <div id="btn-learn" class="mt-3 w-100"></div>
             </div>
 
             <div id="result"></div>
           </div>
         </div>
-
-        <script>
-          $(document).ready(function () {
-            $("#imageInput").on("change", function () {
-              let file = this.files[0];
-
-              if (!file) {
-                alert("Please select an image file");
-                return;
-              }
-
-              // Preview the image
-              previewImage(file);
-
-              // Check file size and handle accordingly
-              if (file.size <= 5 * 1024 * 1024) {
-                uploadImage(file);
-              } else {
-                resizeImage(file, function (compressedFile) {
-                  uploadImage(compressedFile);
-                });
-              }
-            });
-
-            function previewImage(file) {
-              const reader = new FileReader();
-              reader.onload = function (e) {
-                $("#imagePreview")
-                  .attr("src", e.target.result)
-                  .removeClass("d-none");
-              };
-              reader.readAsDataURL(file);
-              $("#show").hide();
-              $("#result-div").show();
-            }
-
-            function resizeImage(file, callback) {
-              const reader = new FileReader();
-              reader.onload = function (event) {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = function () {
-                  const canvas = document.createElement("canvas");
-                  const ctx = canvas.getContext("2d");
-
-                  let width = img.width;
-                  let height = img.height;
-                  const maxSize = 1024; // Resize dimension
-
-                  if (width > height) {
-                    if (width > maxSize) {
-                      height *= maxSize / width;
-                      width = maxSize;
-                    }
-                  } else {
-                    if (height > maxSize) {
-                      width *= maxSize / height;
-                      height = maxSize;
-                    }
-                  }
-
-                  canvas.width = width;
-                  canvas.height = height;
-                  ctx.drawImage(img, 0, 0, width, height);
-
-                  // Convert to JPEG
-                  canvas.toBlob(
-                    function (blob) {
-                      if (blob.size > 5 * 1024 * 1024) {
-                        alert(
-                          "Image is too large, try selecting a smaller one."
-                        );
-                      } else {
-                        const newFile = new File([blob], file.name, {
-                          type: "image/jpeg",
-                          lastModified: Date.now(),
-                        });
-                        callback(newFile);
-                      }
-                    },
-                    "image/jpeg",
-                    0.8
-                  );
-                };
-              };
-              reader.readAsDataURL(file);
-            }
-
-            function uploadImage(file) {
-              let formData = new FormData();
-              formData.append("image", file);
-
-              $.ajax({
-                url: "/infer",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (response) {
-                  if (response.predictions && response.predictions.length > 0) {
-                    // Get the first prediction's class and confidence
-                    const className = response.predictions[0].class;
-                    const confidence = (
-                      response.predictions[0].confidence * 100
-                    ).toFixed(2); // Convert confidence to percentage
-
-                    // Display the class name, prediction status, and confidence
-                    $("#detected").text(className);
-                    $("#status").text("Detected");
-                    $("#confidence").text(confidence + "%");
-
-                    // Dynamically create the "Learn Species" link and append it to btn-learn
-                    const speciesName = className
-                      .toLowerCase()
-                      .replace(/\s+/g, "-"); // Make species name URL-friendly
-                    const learnLink = `<a href="view_species?name=${speciesName}" class="btn border w-100 text-primary border-primary">Learn Species</a>`;
-
-                    $("#btn-learn").html(learnLink); // Append the link to btn-learn
-                  } else {
-                    // If no predictions
-                    $("#detected").text("No Detected");
-                    $("#status").text("No Detected");
-                    $("#confidence").text("N/A");
-                    $("#btn-learn").html(""); // Clear any existing link if no detection
-                  }
-                },
-                error: function (xhr) {
-                  $("#result").html(
-                    '<p style="color: red;">Error: ' + xhr.responseText + "</p>"
-                  );
-                },
-              });
-            }
-          });
-        </script>
       </div>
 
       <div class="modal-footer">
