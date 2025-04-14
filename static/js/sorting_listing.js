@@ -43,24 +43,31 @@ $(document).ready(function () {
           ? "background-color: rgb(148, 230, 148); color: green; border: 2px solid green;"
           : "background-color: rgb(255, 204, 204); color: red; border: 2px solid red;";
 
-      $("#data-items").append(`
-        <div class="col-12 col-md-4 d-flex flex-row">
-          <div class="border rounded-4" style="width: 100px; height: 100px">
-            <img class="rounded-4" style="object-fit: cover; width: 100%; height: 100%" 
-                 src="../../static/uploads/${item.species_filename}" 
-                 alt="${item.species_predicted}" />
-          </div>
-          <div class="ms-3">
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
-            <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
-              STATUS: <span class="rounded-4 fw-bolder" style="padding: 5px; ${statusStyle}">
-                ${item.species_status}
-              </span>
-            </p>
-          </div>
-        </div>
-      `);
+          $("#data-items").append(`
+            <div class="col-12 col-md-4 mb-3">
+              <a href="/view_detected?filename=${encodeURIComponent(item.species_filename)}" class="text-decoration-none text-dark">
+                <div class="d-flex flex-row align-items-start item-card border rounded-4 p-2" style="transition: 0.2s ease-in-out;">
+                  <div style="width: 100px; height: 100px">
+                    <img class="rounded-4" style="object-fit: cover; width: 100%; height: 100%" 
+                         src="../../static/uploads/${item.species_filename}" 
+                         alt="${item.species_predicted}" />
+                  </div>
+                  <div class="ms-3">
+                    <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">FILENAME: ${item.species_filename}</p>
+                    <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">CLASS: ${item.species_predicted}</p>
+                    <p class="text-muted mt-1" style="font-size: 13px; margin: 0px">
+                      STATUS: <span class="rounded-4 fw-bolder" style="padding: 5px; ${statusStyle}">
+                        ${item.species_status}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          `);
+          
+          
+          
     });
   }
 

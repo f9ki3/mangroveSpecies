@@ -57,6 +57,9 @@ def root():
 def learn_mangrove():
     return render_template('pages/learn_mangrove.html')
 
+@app.route('/view_detected')
+def view_detected():
+    return render_template('/pages/view_detected.html')
 
 @app.route('/view_species')
 def view_species():

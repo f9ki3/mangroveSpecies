@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% include 'components/header.html' %}
+    <style>
+      /* Custom Styles */
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .species-details img {
+        max-width: 100%;
+        border-radius: 0.5rem;
+      }
+
+      .image-row {
+        display: flex;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        gap: 10px;
+        background-color: #e9ecef; /* Adjust color if needed */
+      }
+
+      .image-row img {
+        height: 100px;
+        width: 100px;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .image-row img:hover {
+        transform: scale(1.1);
+      }
+
+      /* Fixed Height and Width for Main Image */
+      #main-image {
+        width: 100%;
+        height: 400px; /* Adjust height as needed */
+        object-fit: cover;
+        border-radius: 0.5rem;
+      }
+
+      .justify-text {
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+    <div class="container mt-3 mb-5">
+        <div class="row">
+            <div class="col-12 col-md-6">
+  
+              <!-- Image Preview -->
+              <div class="mb-3">
+                <img
+                  id="imagePreview"
+                  src=""
+                  alt="Selected Image"
+                  class="img-fluid d-none rounded"
+                  style="
+                    width: 100%;
+                    height: auto;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                    border: 1px solid #ddd;
+                  "
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div id="show" class="rounded border p-3 text-center">
+                <!-- Bootstrap icon for upload -->
+                <i
+                  class="bi bi-info-circle"
+                  style="font-size: 30px; color: gray"
+                ></i>
+                <p>Please upload image to detect mangrove species</p>
+              </div>
+  
+              <div id="result-div" style="display: none">
+                <p>Prediction Species</p>
+                <div
+                  style="height: 50px; color: gray"
+                  class="border rounded d-flex justify-content-center align-items-center"
+                >
+                  <h5 id="detected" class="ms-2">Loading...</h5>
+                </div>
+  
+                <p class="mt-3">Prediction Status</p>
+                <div
+                  style="height: 50px; color: gray"
+                  class="border rounded d-flex justify-content-center align-items-center"
+                >
+                  <h5 id="status" class="ms-2">Loading...</h5>
+                </div>
+  
+                <p class="mt-3">Confidence Level</p>
+                <div
+                  style="height: 50px; color: gray"
+                  class="border rounded d-flex justify-content-center align-items-center"
+                >
+                  <h5 id="confidence" class="ms-2">Loading...</h5>
+                </div>
+                <p class="mt-3">Remarks</p>
+                <div
+                  style="height: 100px; color: gray"
+                  class="border rounded d-flex justify-content-center align-items-center text-center"
+                >
+                  <h5 id="remarks">Loading...</h5>
+                </div>
+  
+                <div id="btn-learn" class="mt-3 w-100"></div>
+              </div>
+  
+              <div id="result"></div>
+            </div>
+          </div>
+    </div>
+
+    {% include 'components/footer.html' %}
+    <script>
+        $(document).ready(function () {
+          const params = new URLSearchParams(window.location.search);
+          const filename = params.get('filename');
+      
+          if (filename) {
+            const imagePath = `/static/uploads/${filename}`;
+            $("#imagePreview").attr("src", imagePath).removeClass("d-none");
+            $("#show").hide();
+            $("#result-div").show();
+          
+            fetch(imagePath)
+              .then(res => res.blob())
+              .then(blob => {
+                const file = new File([blob], filename, { type: blob.type });
+                uploadImage(file);
+              })
+              .catch(err => {
+                console.error("Error loading image:", err);
+                $("#detected").text("Error");
+                $("#status").text("Error");
+                $("#confidence").text("N/A");
+                $("#remarks").text("Failed to load image from server.");
+              });
+          }
+          
+          $("#imageInput").on("change", function () {
+            let file = this.files[0];
+      
+            if (!file) {
+              alert("Please select an image file");
+              return;
+            }
+      
+            previewImage(file);
+      
+            if (file.size <= 5 * 1024 * 1024) {
+              uploadImage(file);
+            } else {
+              resizeImage(file, function (compressedFile) {
+                uploadImage(compressedFile);
+              });
+            }
+          });
+      
+          function previewImage(file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              $("#imagePreview").attr("src", e.target.result).removeClass("d-none");
+            };
+            reader.readAsDataURL(file);
+            $("#show").hide();
+            $("#result-div").show();
+          }
+      
+          function resizeImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+              const img = new Image();
+              img.src = event.target.result;
+      
+              img.onload = function () {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+      
+                let width = img.width;
+                let height = img.height;
+                const maxSize = 1024;
+      
+                if (width > height) {
+                  if (width > maxSize) {
+                    height *= maxSize / width;
+                    width = maxSize;
+                  }
+                } else {
+                  if (height > maxSize) {
+                    width *= maxSize / height;
+                    height = maxSize;
+                  }
+                }
+      
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+      
+                canvas.toBlob(
+                  function (blob) {
+                    if (blob.size > 5 * 1024 * 1024) {
+                      alert("Image is too large, try selecting a smaller one.");
+                    } else {
+                      const newFile = new File([blob], file.name, {
+                        type: "image/jpeg",
+                        lastModified: Date.now(),
+                      });
+                      callback(newFile);
+                    }
+                  },
+                  "image/jpeg",
+                  0.8
+                );
+              };
+            };
+            reader.readAsDataURL(file);
+          }
+      
+          function uploadImage(file) {
+            let formData = new FormData();
+            formData.append("image", file);
+      
+            $("#detected").text("Loading...");
+            $("#status").text("Loading...");
+            $("#confidence").text("Loading...");
+            $("#remarks").text("Loading...");
+            $("#btn-learn").html("");
+            $("#loading").removeClass("d-none");
+      
+            $.ajax({
+              url: "/infer",
+              type: "POST",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (response) {
+                $("#loading").addClass("d-none");
+      
+                if (response.predictions && response.predictions.length > 0) {
+                  const className = response.predictions[0].class;
+                  const confidence = (response.predictions[0].confidence * 100).toFixed(2);
+      
+                  $("#detected").text(className);
+                  $("#status").text("Detected");
+                  $("#confidence").text(confidence + "%");
+      
+                  const remark =
+                    confidence >= 80
+                      ? "Predicted Species (high confidence)"
+                      : "Prediction not accurate (low confidence)";
+                  $("#remarks").text(remark);
+      
+                  const speciesName = className.toLowerCase().replace(/\s+/g, "-");
+                  const learnLink = `<a href="view_species?name=${speciesName}" class="btn border w-100 text-primary border-primary">Learn Species</a>`;
+                  $("#btn-learn").html(learnLink);
+                } else {
+                  $("#detected").text("Not Detected");
+                  $("#status").text("Not Detected");
+                  $("#confidence").text("N/A");
+                  $("#remarks").text("Not Detected");
+                  $("#btn-learn").html("");
+                }
+              },
+              error: function () {
+                $("#loading").addClass("d-none");
+                $("#detected").text("Error");
+                $("#status").text("Error");
+                $("#confidence").text("N/A");
+                $("#remarks").text("Something went wrong.");
+                $("#btn-learn").html("");
+              },
+            });
+          }
+        });
+      </script>
+      
+  </body>
+</html>
